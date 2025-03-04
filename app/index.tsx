@@ -1,18 +1,18 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, StatusBar, Dimensions, Button } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, StatusBar, Dimensions, Button, ImageBackground } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/Colors';
+import { gameImages, games } from '@/constants/Games';
 import { RelativePathString, useRouter } from 'expo-router';
+import { OpenLink } from '@/components/OpenLink';
+import { PartnersSection } from '@/components/ui/PartnersSection';
+import { PlatformStatistics } from '@/components/ui/PlatformStatistics';
+import { FeaturedGames } from '@/components/ui/FeaturedGames';
 
 const { width } = Dimensions.get('window');
 
 export default function App() {
-    const featuredGames = [
-        { id: 1, title: 'Cyber Quest', genre: 'Adventure', rating: 4.8 },
-        { id: 2, title: 'Space Warriors', genre: 'Action', rating: 4.9 },
-        { id: 3, title: 'Pixel Racer', genre: 'Racing', rating: 4.7 }
-    ];
     const router = useRouter();
 
     return (
@@ -20,122 +20,68 @@ export default function App() {
             <StatusBar barStyle="light-content" />
             <ScrollView style={styles.container}>
                 {/* Hero Section */}
-                <LinearGradient
-                    colors={[colors.secondary, colors.primary]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 1 }}
+                <ImageBackground
+                    source={require("../assets/images/bg.jpg")} // Replace with your actual image path
                     style={styles.heroContainer}
+                    resizeMode="cover"
                 >
+                    {/* Gradient Overlay */}
+                    <View style={styles.overlay} />
+
                     <View style={styles.heroContent}>
+                        <Text style={styles.heroTitle}>Welcome to</Text>
                         <Text style={styles.logoText}>NixArcade</Text>
-                        <Text style={styles.heroTitle}>Gaming Reimagined</Text>
                         <Text style={styles.heroSubtitle}>
-                            Experience the next level of mobile gaming
+                            Your Hub for Classic Board Games, Anytime, Anywhere.
                         </Text>
                         <TouchableOpacity
-                            style={[styles.button, { backgroundColor: colors.accent }]}
+                            style={[styles.ctaButton, { backgroundColor: "#000" }]}
+                            onPress={() => {
+                                router.push("play" as RelativePathString);
+                            }}
                         >
-                            <Button title="Go to Play" onPress={() => router.push('play' as RelativePathString)} />
+                            <Ionicons name="game-controller" size={20} color="#fff" />
+                            <Text style={styles.ctaButtonText}>Play Games</Text>
                         </TouchableOpacity>
                     </View>
+
                     <View style={styles.heroImageContainer}>
-                        <View style={[styles.mockupFrame, { borderColor: colors.primary }]}>
+                        <View style={[styles.mockupFrame, { borderColor: "#fff" }]}>
                             <View style={styles.mockupInner} />
                         </View>
                     </View>
-                </LinearGradient>
+                </ImageBackground>
 
-                {/* Features Section */}
-                <View style={styles.sectionContainer}>
-                    <Text style={[styles.sectionTitle, { color: colors.secondary }]}>
-                        Why Choose NixArcade?
-                    </Text>
-
-                    <View style={styles.featuresContainer}>
-                        <FeatureItem
-                            icon="game-controller"
-                            title="Premium Games"
-                            description="Access hundreds of high-quality games optimized for mobile"
-                            color={colors.primary}
-                        />
-                        <FeatureItem
-                            icon="trophy"
-                            title="Competitive"
-                            description="Join tournaments and compete with players worldwide"
-                            color={colors.secondary}
-                        />
-                        <FeatureItem
-                            icon="cloud-download"
-                            title="Cloud Sync"
-                            description="Your progress syncs across all your devices automatically"
-                            color={colors.accent}
-                        />
-                    </View>
-                </View>
-
-                {/* Games Showcase */}
-                <View style={[styles.sectionContainer, { backgroundColor: colors.neutral + '20' }]}>
-                    <Text style={[styles.sectionTitle, { color: colors.secondary }]}>
-                        Featured Games
-                    </Text>
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.gamesScrollContainer}
-                    >
-                        {featuredGames.map((game) => (
-                            <View key={game.id} style={[styles.gameCard, { borderColor: colors.primary }]}>
-                                <View style={[styles.gameImagePlaceholder, { backgroundColor: colors.secondary + '50' }]}>
-                                    <Ionicons name="game-controller" size={40} color={colors.primary} />
-                                </View>
-                                <Text style={[styles.gameTitle, { color: colors.secondary }]}>{game.title}</Text>
-                                <Text style={styles.gameGenre}>{game.genre}</Text>
-                                <View style={styles.ratingContainer}>
-                                    <Ionicons name="star" size={16} color="#FFD700" />
-                                    <Text style={styles.ratingText}>{game.rating}</Text>
-                                </View>
-                            </View>
-                        ))}
-                    </ScrollView>
-                </View>
-
-                {/* CTA Section */}
-                <View style={styles.ctaContainer}>
-                    <LinearGradient
-                        colors={[colors.primary, colors.secondary]}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        style={styles.ctaGradient}
-                    >
-                        <Text style={styles.ctaTitle}>Ready to Play?</Text>
-                        <Text style={styles.ctaSubtitle}>
-                            Download NixArcade now and join thousands of gamers!
-                        </Text>
-                        <View style={styles.ctaButtonsContainer}>
-                            <TouchableOpacity
-                                style={[styles.ctaButton, { backgroundColor: '#000' }]}
-                            >
-                                <Ionicons name="logo-apple" size={20} color="#fff" />
-                                <Text style={styles.ctaButtonText}>App Store</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[styles.ctaButton, { backgroundColor: '#000' }]}
-                            >
-                                <Ionicons name="logo-google-playstore" size={20} color="#fff" />
-                                <Text style={styles.ctaButtonText}>Google Play</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </LinearGradient>
-                </View>
+                <PlatformStatistics />
+                <PartnersSection />
+                <FeaturedGames />
 
                 {/* Footer */}
                 <View style={[styles.footer, { backgroundColor: colors.secondary }]}>
                     <Text style={styles.footerLogo}>NixArcade</Text>
                     <Text style={styles.footerText}>© 2025 NixArcade. All rights reserved.</Text>
                     <View style={styles.socialContainer}>
-                        <Ionicons name="logo-twitter" size={24} color="#fff" style={styles.socialIcon} />
-                        <Ionicons name="logo-instagram" size={24} color="#fff" style={styles.socialIcon} />
-                        <Ionicons name="logo-discord" size={24} color="#fff" style={styles.socialIcon} />
+                        <Ionicons
+                            name="logo-twitter"
+                            size={24}
+                            color="#fff"
+                            style={styles.socialIcon}
+                            onPress={() => OpenLink("https://twitter.com/NIXARCADE")}
+                        />
+                        <Ionicons
+                            name="paper-plane" // Telegram Icon
+                            size={24}
+                            color="#fff"
+                            style={styles.socialIcon}
+                            onPress={() => OpenLink("https://t.me/NIXARCADE")}
+                        />
+                        <Ionicons
+                            name="globe-outline" // Website Icon
+                            size={24}
+                            color="#fff"
+                            style={styles.socialIcon}
+                            onPress={() => OpenLink("https://nixarcade.vercel.app/")}
+                        />
                     </View>
                 </View>
             </ScrollView>
@@ -175,14 +121,18 @@ const styles = StyleSheet.create({
         paddingBottom: 40,
         paddingHorizontal: 20,
     },
+    overlay: {
+        ...StyleSheet.absoluteFillObject, // Covers the entire ImageBackground
+        backgroundColor: "rgba(0, 0, 0, 0.4)", // Dark transparent gradient effect
+    },
     heroContent: {
         alignItems: 'center',
     },
     logoText: {
-        fontSize: 28,
-        fontWeight: 'bold',
+        fontSize: 38,
         color: '#fff',
         marginBottom: 20,
+        fontFamily: 'Anime'
     },
     heroTitle: {
         fontSize: 36,
@@ -190,6 +140,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         textAlign: 'center',
         marginBottom: 10,
+        fontFamily: 'GeistMono'
     },
     heroSubtitle: {
         fontSize: 18,
@@ -197,6 +148,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 30,
         opacity: 0.9,
+        fontFamily: 'GeistMono'
     },
     button: {
         paddingVertical: 12,
@@ -209,6 +161,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: '#fff',
+        fontFamily: 'GeistMono'
     },
     heroImageContainer: {
         alignItems: 'center',
@@ -229,15 +182,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
         borderRadius: 20,
     },
-    sectionContainer: {
-        padding: 30,
-    },
-    sectionTitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 30,
-        textAlign: 'center',
-    },
+
     featuresContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
@@ -261,56 +206,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10,
         textAlign: 'center',
+        fontFamily: 'GeistMono'
     },
     featureDescription: {
         fontSize: 14,
         textAlign: 'center',
         color: '#666',
         paddingHorizontal: 10,
-    },
-    gamesScrollContainer: {
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-    },
-    gameCard: {
-        width: 180,
-        backgroundColor: '#fff',
-        borderRadius: 20,
-        padding: 15,
-        marginRight: 15,
-        borderWidth: 1,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
-        elevation: 5,
-    },
-    gameImagePlaceholder: {
-        width: '100%',
-        height: 100,
-        borderRadius: 10,
-        marginBottom: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    gameTitle: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 5,
-    },
-    gameGenre: {
-        fontSize: 14,
-        color: '#666',
-        marginBottom: 5,
-    },
-    ratingContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    ratingText: {
-        marginLeft: 5,
-        fontSize: 14,
-        fontWeight: 'bold',
+        fontFamily: 'GeistMono'
     },
     ctaContainer: {
         padding: 20,
@@ -325,6 +228,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#fff',
         marginBottom: 15,
+        fontFamily: 'GeistMono'
     },
     ctaSubtitle: {
         fontSize: 16,
@@ -332,6 +236,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 25,
         opacity: 0.9,
+        fontFamily: 'GeistMono'
     },
     ctaButtonsContainer: {
         flexDirection: 'row',
@@ -353,6 +258,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#fff',
         marginLeft: 8,
+        fontFamily: 'GeistMono'
     },
     footer: {
         padding: 30,
@@ -363,12 +269,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#fff',
         marginBottom: 10,
+        fontFamily: 'GeistMono'
     },
     footerText: {
         fontSize: 14,
         color: '#fff',
         opacity: 0.8,
         marginBottom: 20,
+        fontFamily: 'GeistMono'
     },
     socialContainer: {
         flexDirection: 'row',
