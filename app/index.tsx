@@ -1,9 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, StatusBar, Dimensions, Button, ImageBackground } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, StatusBar, Dimensions, ImageBackground } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/Colors';
-import { gameImages, games } from '@/constants/Games';
 import { RelativePathString, useRouter } from 'expo-router';
 import { OpenLink } from '@/components/OpenLink';
 import { PartnersSection } from '@/components/ui/PartnersSection';
