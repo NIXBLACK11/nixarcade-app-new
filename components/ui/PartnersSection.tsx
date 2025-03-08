@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Linking } from "react-native";
 import { companies } from "@/constants/Companies";
+import { GrainOverlay } from "./GrainOverlay";
 
 export const PartnersSection = () => {
     return (
@@ -38,7 +39,7 @@ const PartnerCard: React.FC<PartnerCardProps> = ({ logo, name, description, link
             style={styles.card} 
             onPress={() => Linking.openURL(link)}
         >
-            <View style={styles.grainOverlay} />
+            <GrainOverlay />
             <View style={styles.logoContainer}>
                 <Image source={logo} style={styles.logo} resizeMode="contain" />
             </View>
@@ -80,13 +81,6 @@ const styles = StyleSheet.create({
         overflow: "hidden",
         borderWidth: 1,
         borderColor: "#333333",
-    },
-    grainOverlay: {
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: "transparent",
-        opacity: 0.2,
-        zIndex: 1,
-        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
     },
     logoContainer: {
         height: 60,

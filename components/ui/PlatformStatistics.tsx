@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { GrainOverlay } from './GrainOverlay';
 
 export const PlatformStatistics = () => {
     const statistics = [
@@ -44,7 +45,8 @@ export const PlatformStatistics = () => {
             <View style={styles.statsContainer}>
                 {statistics.map(stat => (
                     <TouchableOpacity style={styles.card}>
-                    <View style={styles.grainOverlay}/>
+                    <View/>
+                        <GrainOverlay />
                         <View style={styles.titleRow}>
                             <Text style={styles.statTitle}>{stat.title}</Text>
                             <Ionicons name={stat.icon} size={20} color={stat.iconColor} />
@@ -80,18 +82,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#000000',
         width: '100%',
     },
-    grainOverlay: {
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: "transparent",
-        opacity: 0.2,
-        zIndex: 1,
-        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-    },
     heading: {
         fontSize: 34,
         color: 'white',
         textAlign: 'center',
         fontFamily: 'Anime',
+        marginBottom: 30
     },
     statsContainer: {
         backgroundColor: 'trasnparent',

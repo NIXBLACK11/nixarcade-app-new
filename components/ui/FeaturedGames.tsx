@@ -1,88 +1,109 @@
-import { colors } from "@/constants/Colors"
-import { gameImages, games } from "@/constants/Games"
-import { ScrollView, View, Text, Image, StyleSheet } from "react-native"
+import React from "react";
+import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Linking } from "react-native";
+import { gameImages, games } from "@/constants/Games";
+import { GrainOverlay } from "./GrainOverlay";
 
 export const FeaturedGames = () => {
     return (
-        <View style={[styles.sectionContainer, { backgroundColor: colors.neutral + '20' }]}>
-            <Text style={[styles.sectionTitle, { color: colors.secondary }]}>
-                Featured Games
-            </Text>
+        <View style={styles.container}>
+            <Text style={styles.heading}>Featured Games</Text>
             <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.gamesScrollContainer}
+                contentContainerStyle={styles.scrollContent}
             >
-                {games.map((game) => {
-                    return (
-                        <View key={game.id} style={[styles.gameCard, { borderColor: colors.primary }]}>
-                            <View style={[styles.gameImagePlaceholder, { backgroundColor: colors.secondary + '50' }]}>
-                                <Image
-                                    source={gameImages[game.logo as keyof typeof gameImages]}
-                                    style={styles.gameImage}
-                                    resizeMode="contain" />
-                            </View>
-                            <Text style={[styles.gameTitle, { color: colors.secondary }]}>{game.title}</Text>
-                            <Text style={styles.gameGenre}>{game.description}</Text>
-                        </View>
-                    )
-                })}
+                {games.map((game) => (
+                    <GameCard
+                        key={game.id}
+                        logo={gameImages[game.logo as keyof typeof gameImages]}
+                        title={game.title}
+                        description={game.description}
+                    />
+                ))}
             </ScrollView>
         </View>
-    )
+    );
+};
+
+interface GameCardProps {
+    logo: any;
+    title: string;
+    description: string;
 }
 
+const GameCard: React.FC<GameCardProps> = ({ logo, title, description }) => {
+    return (
+        <View style={styles.card}>
+            <GrainOverlay />
+            <View style={styles.logoContainer}>
+                <Image source={logo} style={styles.logo} resizeMode="contain" />
+            </View>
+            <Text style={styles.gameTitle}>{title}</Text>
+            <Text style={styles.gameDescription}>{description}</Text>
+        </View>
+    );
+};
+
 const styles = StyleSheet.create({
-    sectionContainer: {
-        padding: 30,
+    container: {
+        backgroundColor: "#000000",
+        width: "100%",
+        padding: 20,
     },
-    sectionTitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 30,
-        textAlign: 'center',
-        fontFamily: 'GeistMono'
-    },
-    gamesScrollContainer: {
+    heading: {
+        fontSize: 36,
+        color: "white",
+        textAlign: "center",
+        marginBottom: 25,
+        fontFamily: "Anime",
+        backgroundColor: "#000000",
         paddingVertical: 10,
-        paddingHorizontal: 15,
     },
-    gameCard: {
-        width: 180,
-        backgroundColor: '#fff',
-        borderRadius: 20,
-        padding: 15,
-        marginRight: 15,
-        borderWidth: 1,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
-        elevation: 5,
+    scrollContent: {
+        paddingBottom: 10,
+        paddingHorizontal: 5,
     },
-    gameImagePlaceholder: {
-        width: '100%',
-        height: 100,
+    card: {
+        backgroundColor: "#121212",
         borderRadius: 10,
-        marginBottom: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
+        padding: 20,
+        alignItems: "center",
+        width: 280,
+        minHeight: 200,
+        justifyContent: "center",
+        marginRight: 15,
+        position: "relative",
+        overflow: "hidden",
+        borderWidth: 1,
+        borderColor: "#333333",
+    },
+    logoContainer: {
+        height: 120,
+        width: "100%",
+        marginBottom: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 2,
+    },
+    logo: {
+        height: "100%",
+        width: "100%",
+        borderRadius: 8,
     },
     gameTitle: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 5,
-        fontFamily: 'GeistMono'
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "white",
+        textAlign: "center",
+        marginBottom: 10,
+        zIndex: 2,
+        fontFamily: "GeistMono",
     },
-    gameGenre: {
+    gameDescription: {
         fontSize: 14,
-        color: '#666',
-        marginBottom: 5,
-        fontFamily: 'GeistMono'
+        color: "#AAAAAA",
+        textAlign: "center",
+        zIndex: 2,
+        fontFamily: "GeistMono",
     },
-    gameImage: {
-        width: "100%",
-        height: "100%",
-        borderRadius: 10
-    },
-})
+});

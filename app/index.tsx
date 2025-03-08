@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, StatusBar, Dimensions, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, StatusBar, Dimensions, ImageBackground, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/Colors';
 import { RelativePathString, useRouter } from 'expo-router';
@@ -7,6 +7,7 @@ import { OpenLink } from '@/components/OpenLink';
 import { PartnersSection } from '@/components/ui/PartnersSection';
 import { PlatformStatistics } from '@/components/ui/PlatformStatistics';
 import { FeaturedGames } from '@/components/ui/FeaturedGames';
+import { GrainOverlay } from '@/components/ui/GrainOverlay';
 
 const { width } = Dimensions.get('window');
 
@@ -19,12 +20,11 @@ export default function App() {
             <ScrollView style={styles.container}>
                 {/* Hero Section */}
                 <ImageBackground
-                    source={require("../assets/images/bg.jpg")} // Replace with your actual image path
+                    source={require("../assets/images/bg.jpg")}
                     style={styles.heroContainer}
                     resizeMode="cover"
                 >
-                    {/* Gradient Overlay */}
-                    <View style={styles.overlay} />
+                    <GrainOverlay />
 
                     <View style={styles.heroContent}>
                         <Text style={styles.heroTitle}>Welcome to</Text>
@@ -43,11 +43,13 @@ export default function App() {
                         </TouchableOpacity>
                     </View>
 
-                    <View style={styles.heroImageContainer}>
-                        <View style={[styles.mockupFrame, { borderColor: "#fff" }]}>
-                            <View style={styles.mockupInner} />
-                        </View>
+                    <View style={styles.logoContainer}>
+                        <Image
+                            source={require("../assets/images/games/mainlogo.png")}
+                            style={[styles.logo, { resizeMode: "contain" }]}
+                        />
                     </View>
+
                 </ImageBackground>
 
                 <PlatformStatistics />
@@ -56,6 +58,7 @@ export default function App() {
 
                 {/* Footer */}
                 <View style={[styles.footer, { backgroundColor: colors.secondary }]}>
+                    <GrainOverlay />
                     <Text style={styles.footerLogo}>NixArcade</Text>
                     <Text style={styles.footerText}>© 2025 NixArcade. All rights reserved.</Text>
                     <View style={styles.socialContainer}>
@@ -87,7 +90,6 @@ export default function App() {
     );
 }
 
-// Feature Item Component
 interface FeatureItemProps {
     icon: keyof typeof Ionicons.glyphMap; // Ensures only valid Ionicons names
     title: string;
@@ -125,6 +127,19 @@ const styles = StyleSheet.create({
     },
     heroContent: {
         alignItems: 'center',
+    },
+    logoContainer: {
+        height: 120,
+        width: "100%",
+        marginBottom: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 2,
+    },
+    logo: {
+        height: "100%",
+        width: "100%",
+        borderRadius: 8,
     },
     logoText: {
         fontSize: 38,
